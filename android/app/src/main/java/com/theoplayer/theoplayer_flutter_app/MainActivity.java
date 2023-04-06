@@ -8,11 +8,10 @@ import io.flutter.plugin.common.StandardMessageCodec;
 
 public class MainActivity extends FlutterActivity {
 
+
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
-
-        flutterEngine.getPlatformViewsController().getRegistry().registerViewFactory("com.theoplayer/theoplayer-view-native", new THEOplayerViewNativeFactory());
-
+        flutterEngine.getPlatformViewsController().getRegistry().registerViewFactory("com.theoplayer/theoplayer-view-native", new THEOplayerViewNativeFactory(flutterEngine.getDartExecutor().getBinaryMessenger()));
         super.configureFlutterEngine(flutterEngine);
     }
 }

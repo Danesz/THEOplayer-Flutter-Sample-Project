@@ -51,6 +51,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  late THEOplayerViewController theoPlayerViewController;
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -79,7 +81,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
-        child: Container(height: 300, width: 400, child: THEOplayerView(),)
+        child: Container(
+          color: Colors.red,
+          height: 300,
+          width: 400,
+          child: THEOplayerView(onTHEOplayerViewCreated: onTHEOplayerViewCreated,),
+        )
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _incrementCounter,
@@ -88,4 +95,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+  void onTHEOplayerViewCreated(THEOplayerViewController controller) {
+    theoPlayerViewController = controller;
+    theoPlayerViewController.setSource(sourceURL: "https://media.axprod.net/TestVectors/v7-Clear/Manifest.mpd");
+  }
+
 }
