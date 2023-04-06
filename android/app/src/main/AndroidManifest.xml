@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.theoplayer.theoplayer_flutter_app">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+
    <application
         android:label="theoplayer_flutter_app"
         android:name="${applicationName}"
@@ -30,5 +33,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+       <meta-data
+           android:name="THEOPLAYER_LICENSE"
+           android:value="your_license_here" />
     </application>
 </manifest>
