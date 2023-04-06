@@ -11,7 +11,7 @@ public class MainActivity extends FlutterActivity {
     @Override
     public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
 
-        flutterEngine.getPlatformViewsController().getRegistry().registerViewFactory("theoplayer-view-native", new THEOplayerViewNativeFactory(StandardMessageCodec.INSTANCE));
+        flutterEngine.getPlatformViewsController().getRegistry().registerViewFactory("theoplayer-view-native", new THEOplayerViewNativeFactory());
 
         super.configureFlutterEngine(flutterEngine);
     }

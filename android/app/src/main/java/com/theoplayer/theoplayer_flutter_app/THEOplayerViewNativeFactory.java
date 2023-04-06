@@ -8,15 +8,14 @@ import androidx.annotation.Nullable;
 import java.util.Map;
 
 import io.flutter.plugin.common.MessageCodec;
+import io.flutter.plugin.common.StandardMessageCodec;
 import io.flutter.plugin.platform.PlatformView;
 import io.flutter.plugin.platform.PlatformViewFactory;
 
 public class THEOplayerViewNativeFactory extends PlatformViewFactory {
-    /**
-     * @param createArgsCodec the codec used to decode the args parameter of {@link #create}.
-     */
-    public THEOplayerViewNativeFactory(@Nullable MessageCodec<Object> createArgsCodec) {
-        super(createArgsCodec);
+
+    public THEOplayerViewNativeFactory() {
+        super(StandardMessageCodec.INSTANCE);
     }
 
     @NonNull
