@@ -8,7 +8,7 @@ class THEOplayerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // This is used in the platform side to register the view.
-    const String viewType = 'theoplayer-view-native';
+    const String viewType = 'com.theoplayer/theoplayer-view-native';
     // Pass parameters to the platform side.
     const Map<String, dynamic> creationParams = <String, dynamic>{};
 
