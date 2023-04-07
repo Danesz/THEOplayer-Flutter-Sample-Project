@@ -3,6 +3,7 @@ package com.theoplayer.theoplayer_flutter_app;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -11,6 +12,9 @@ import androidx.annotation.Nullable;
 
 import com.theoplayer.android.api.THEOplayerConfig;
 import com.theoplayer.android.api.THEOplayerView;
+import com.theoplayer.android.api.event.EventListener;
+import com.theoplayer.android.api.event.player.PlayerEventTypes;
+import com.theoplayer.android.api.event.player.TimeUpdateEvent;
 import com.theoplayer.android.api.source.SourceDescription;
 import com.theoplayer.android.api.source.SourceType;
 import com.theoplayer.android.api.source.TypedSource;
@@ -24,6 +28,7 @@ import io.flutter.plugin.platform.PlatformView;
 
 class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHandler {
 
+    final static String TAG = "THEOplayerViewNative";
     final THEOplayerView tpv;
     final MethodChannel methodChannel;
 
@@ -32,7 +37,10 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
         tpv.getPlayer().setAutoplay(true);
 
         methodChannel = new MethodChannel(messenger, "com.theoplayer/theoplayer-view-native_" + id);
+        //receive messages from native
         methodChannel.setMethodCallHandler(this::onMethodCall);
+
+        registerListeners();
 
     }
 
@@ -47,11 +55,43 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
         tpv.onDestroy();
     }
 
+    private void registerListeners() {
+        tpv.getPlayer().addEventListener(PlayerEventTypes.TIMEUPDATE, new EventListener<TimeUpdateEvent>() {
+            @Override
+            public void handleEvent(TimeUpdateEvent timeUpdateEvent) {
+                // method channel invokeMethod with callback (showcase) --- callback can be omitted if the result is not important
+                // send messages to native
+                methodChannel.invokeMethod("currentTime", timeUpdateEvent.getCurrentTime(), new MethodChannel.Result() {
+                    @Override
+                    public void success(@Nullable Object result) {
+                        Log.d(TAG,"Callback successful: " + result);
+                    }
+
+                    @Override
+                    public void error(String errorCode, @Nullable String errorMessage, @Nullable Object errorDetails) {
+                        Log.d(TAG, "Callback error: " + errorMessage);
+                    }
+
+                    @Override
+                    public void notImplemented() {
+                        Log.d(TAG,"Callback notImplemented");
+                    }
+                });
+            }
+        });
+    }
+
     @Override
     public void onMethodCall(@NonNull MethodCall call, @NonNull MethodChannel.Result result) {
         switch (call.method) {
             case "setSource":
                 setSource(call, result);
+                break;
+            case "play":
+                play(call, result);
+                break;
+            case "pause":
+                pause(call, result);
                 break;
             default:
                 break;
@@ -64,8 +104,17 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
                 new TypedSource.Builder(sourceUrl)
                         .build()
         ).build());
-        result.success(null);
+        result.success(true);
     }
 
-    // set and load new Url
+    private void play(MethodCall call, MethodChannel.Result result) {
+        tpv.getPlayer().play();
+        result.success(tpv.getPlayer().isPaused());
+    }
+
+    private void pause(MethodCall call, MethodChannel.Result result) {
+        tpv.getPlayer().pause();
+        result.success(tpv.getPlayer().isPaused());
+    }
+
 }

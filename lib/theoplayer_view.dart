@@ -3,10 +3,13 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:theoplayer_flutter_app/theoplayer_view_controller.dart';
 
 typedef THEOplayerViewCreatedCallback = void Function(THEOplayerViewController controller);
 
 class THEOplayerView extends StatelessWidget {
+
+  static const String TAG = "THEOplayerView";
 
   final THEOplayerViewCreatedCallback onTHEOplayerViewCreated;
 
@@ -43,21 +46,11 @@ class THEOplayerView extends StatelessWidget {
         )
           ..addOnPlatformViewCreatedListener((id) {
             params.onPlatformViewCreated(id);
-            onTHEOplayerViewCreated(THEOplayerViewController._(id));
+            onTHEOplayerViewCreated(THEOplayerViewController(id));
           })
           ..create();
       },
     );
   }
 
-}
-
-class THEOplayerViewController {
-  THEOplayerViewController._(int id) : _channel = MethodChannel('com.theoplayer/theoplayer-view-native_$id');
-
-  final MethodChannel _channel;
-
-  Future<void> setSource({required String sourceURL}) async {
-    return _channel.invokeMethod('setSource', sourceURL);
-  }
 }
