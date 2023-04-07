@@ -1,0 +1,16 @@
+PODS:
+  - THEOplayerSDK-core (5.0.0)
+
+DEPENDENCIES:
+  - THEOplayerSDK-core (~> 5)
+
+SPEC REPOS:
+  trunk:
+    - THEOplayerSDK-core
+
+SPEC CHECKSUMS:
+  THEOplayerSDK-core: f40e08305fafa3043174f84135bb05f149e9abab
+
+PODFILE CHECKSUM: 758e5dbac1374c84e26a2ba5d057a61b2a536444
+
+COCOAPODS: 1.11.3
