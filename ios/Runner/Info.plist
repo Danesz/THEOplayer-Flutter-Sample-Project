@@ -47,5 +47,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>THEOplayerLicense</key>
+	<string>your_license_here</string>
 </dict>
 </plist>
