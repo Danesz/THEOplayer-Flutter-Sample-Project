@@ -114,7 +114,12 @@ class _MyHomePageState extends State<MyHomePage> {
       });
     });
 
-    theoPlayerViewController!.setSource(sourceURL: "https://media.axprod.net/TestVectors/v7-Clear/Manifest.mpd");
+    theoPlayerViewController!.setSource(
+        sourceURL:
+          (defaultTargetPlatform == TargetPlatform.android ?
+          "https://media.axprod.net/TestVectors/v7-Clear/Manifest.mpd" :
+          "https://cdn.theoplayer.com/video/big_buck_bunny/big_buck_bunny.m3u8")
+    );
   }
 
 
