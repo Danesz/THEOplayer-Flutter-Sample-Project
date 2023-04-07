@@ -14,9 +14,10 @@ class THEOplayerViewNative: NSObject, FlutterPlatformView {
 
     init(frame: CGRect, viewIdentifier viewId: Int64, arguments args: Any?, binaryMessenger messenger: FlutterBinaryMessenger?) {
         _view = UIView()
+        _view.frame = frame
 
         let theoplayer = THEOplayer(configuration: THEOplayerConfiguration(pip: nil))
-        theoplayer.frame = CGRect(x: 0, y: 0, width: 300, height: 200)
+        theoplayer.frame = _view.bounds
         theoplayer.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         theoplayer.addAsSubview(of: self._view)
         
