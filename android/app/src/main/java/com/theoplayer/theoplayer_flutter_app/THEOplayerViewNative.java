@@ -37,7 +37,7 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
         tpv.getPlayer().setAutoplay(true);
 
         methodChannel = new MethodChannel(messenger, "com.theoplayer/theoplayer-view-native_" + id);
-        //receive messages from native
+        //receive messages from dart
         methodChannel.setMethodCallHandler(this::onMethodCall);
 
         registerListeners();
@@ -60,7 +60,7 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
             @Override
             public void handleEvent(TimeUpdateEvent timeUpdateEvent) {
                 // method channel invokeMethod with callback (showcase) --- callback can be omitted if the result is not important
-                // send messages to native
+                // send messages to dart
                 methodChannel.invokeMethod("currentTime", timeUpdateEvent.getCurrentTime(), new MethodChannel.Result() {
                     @Override
                     public void success(@Nullable Object result) {
