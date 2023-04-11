@@ -45,6 +45,12 @@ android {
         versionName flutterVersionName
     }
 
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
@@ -62,8 +68,17 @@ flutter {
 
 dependencies {
     // Dependency on THEOplayer
-    implementation 'com.theoplayer.theoplayer-sdk-android:core:5.0.0'
-    implementation 'com.theoplayer.theoplayer-sdk-android:integration-ads-ima:5.0.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation(name:'theoplayer', ext:'aar')
+    implementation 'com.google.code.gson:gson:2.8.2'
+
+    implementation "com.google.android.gms:play-services-ads-identifier:16.0.0"
+    implementation "com.google.ads.interactivemedia.v3:interactivemedia:3.25.1"
+
+    implementation "com.google.android.gms:play-services-cast-framework:18.1.0"
+    implementation "androidx.mediarouter:mediarouter:1.1.0"
+
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.21'
     implementation "androidx.appcompat:appcompat:1.6.1"
 
