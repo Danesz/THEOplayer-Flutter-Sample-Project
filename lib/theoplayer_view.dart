@@ -35,7 +35,8 @@ class THEOplayerView extends StatelessWidget {
             );
           },
           onCreatePlatformView: (params) {
-            return PlatformViewsService.initAndroidView(
+            // https://github.com/flutter/flutter/issues/103630
+            return PlatformViewsService.initExpensiveAndroidView(
               id: params.id,
               viewType: viewType,
               layoutDirection: TextDirection.ltr,
