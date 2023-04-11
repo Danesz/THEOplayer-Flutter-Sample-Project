@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.theoplayer.android.api.THEOplayerConfig;
+import com.theoplayer.android.api.THEOplayerGlobal;
 import com.theoplayer.android.api.THEOplayerView;
 import com.theoplayer.android.api.ads.ima.GoogleImaIntegration;
 import com.theoplayer.android.api.ads.ima.GoogleImaIntegrationFactory;
@@ -36,6 +37,7 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
     final MethodChannel methodChannel;
 
     public THEOplayerViewNative(Context context, int id, Map<String, Object> creationParams, BinaryMessenger messenger) {
+        Log.d(TAG, "THEOplayer version: "+ THEOplayerGlobal.getVersion());
         tpv = new THEOplayerView(context, new THEOplayerConfig.Builder().build());
         tpv.getPlayer().setAutoplay(true);
 
