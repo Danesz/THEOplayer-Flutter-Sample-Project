@@ -12,12 +12,15 @@ import androidx.annotation.Nullable;
 
 import com.theoplayer.android.api.THEOplayerConfig;
 import com.theoplayer.android.api.THEOplayerView;
+import com.theoplayer.android.api.ads.ima.GoogleImaIntegration;
+import com.theoplayer.android.api.ads.ima.GoogleImaIntegrationFactory;
 import com.theoplayer.android.api.event.EventListener;
 import com.theoplayer.android.api.event.player.PlayerEventTypes;
 import com.theoplayer.android.api.event.player.TimeUpdateEvent;
 import com.theoplayer.android.api.source.SourceDescription;
 import com.theoplayer.android.api.source.SourceType;
 import com.theoplayer.android.api.source.TypedSource;
+import com.theoplayer.android.api.source.addescription.GoogleImaAdDescription;
 
 import java.util.Map;
 
@@ -39,6 +42,9 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
         methodChannel = new MethodChannel(messenger, "com.theoplayer/theoplayer-view-native_" + id);
         //receive messages from dart
         methodChannel.setMethodCallHandler(this::onMethodCall);
+
+        GoogleImaIntegration imaIntegration = GoogleImaIntegrationFactory.createGoogleImaIntegration(tpv);
+        tpv.getPlayer().addIntegration(imaIntegration);
 
         registerListeners();
 
@@ -103,7 +109,12 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
         tpv.getPlayer().setSource(new SourceDescription.Builder(
                 new TypedSource.Builder(sourceUrl)
                         .build()
-        ).build());
+        )
+                .ads(
+                        new GoogleImaAdDescription.Builder("https://pubads.g.doubleclick.net/gampad/ads?slotname=/124319096/external/ad_rule_samples&sz=640x480&ciu_szs=300x250&cust_params=deployment%3Ddevsite%26sample_ar%3Dpreonly&url=https://developers.google.com/interactive-media-ads/docs/sdks/android/client-side/tags&unviewed_position_start=1&output=xml_vast3&impl=s&env=vp&gdfp_req=1&ad_rule=0&vad_type=linear&vpos=preroll&pod=1&ppos=1&lip=true&min_ad_duration=0&max_ad_duration=30000&vrid=5776&video_doc_id=short_onecue&cmsid=496&kfa=0&tfcd=0")
+                                .build()
+                )
+                .build());
         result.success(true);
     }
 
