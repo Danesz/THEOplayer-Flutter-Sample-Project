@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:theoplayer_flutter_app/theoplayer_eventlisteners.dart';
 import 'package:theoplayer_flutter_app/theoplayer_view.dart';
