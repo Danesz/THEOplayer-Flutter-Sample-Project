@@ -13,13 +13,12 @@ import androidx.annotation.Nullable;
 import com.theoplayer.android.api.THEOplayerConfig;
 import com.theoplayer.android.api.THEOplayerGlobal;
 import com.theoplayer.android.api.THEOplayerView;
-import com.theoplayer.android.api.ads.ima.GoogleImaIntegration;
-import com.theoplayer.android.api.ads.ima.GoogleImaIntegrationFactory;
+import com.theoplayer.android.api.ads.AdsConfiguration;
+import com.theoplayer.android.api.ads.GoogleImaConfiguration;
 import com.theoplayer.android.api.event.EventListener;
 import com.theoplayer.android.api.event.player.PlayerEventTypes;
 import com.theoplayer.android.api.event.player.TimeUpdateEvent;
 import com.theoplayer.android.api.source.SourceDescription;
-import com.theoplayer.android.api.source.SourceType;
 import com.theoplayer.android.api.source.TypedSource;
 import com.theoplayer.android.api.source.addescription.GoogleImaAdDescription;
 
@@ -38,15 +37,12 @@ class THEOplayerViewNative implements PlatformView, MethodChannel.MethodCallHand
 
     public THEOplayerViewNative(Context context, int id, Map<String, Object> creationParams, BinaryMessenger messenger) {
         Log.d(TAG, "THEOplayer version: "+ THEOplayerGlobal.getVersion());
-        tpv = new THEOplayerView(context, new THEOplayerConfig.Builder().build());
+        tpv = new THEOplayerView(context, new THEOplayerConfig.Builder().ads(new AdsConfiguration.Builder().googleImaConfiguration(new GoogleImaConfiguration.Builder().useNativeIma(true).build()).build()).build());
         tpv.getPlayer().setAutoplay(true);
 
         methodChannel = new MethodChannel(messenger, "com.theoplayer/theoplayer-view-native_" + id);
         //receive messages from dart
         methodChannel.setMethodCallHandler(this::onMethodCall);
-
-        GoogleImaIntegration imaIntegration = GoogleImaIntegrationFactory.createGoogleImaIntegration(tpv);
-        tpv.getPlayer().addIntegration(imaIntegration);
 
         registerListeners();
 
